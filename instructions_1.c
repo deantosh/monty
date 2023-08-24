@@ -117,9 +117,43 @@ void _pop(stack_t **stack, unsigned int line_number)
 	{
 		free(current);
 		current = NULL;
-	  
 	}
 
 	/*reset head*/
 	*stack = current;
+}
+
+/**
+ * _swap - swaps the two top elements of the stack.
+ * @stack: a pointer to the stack.
+ * @line_number: the current line of opcode in monty file.
+ *
+ * Return: void
+ */
+void _swap(stack_t **stack, unsigned int line_number)
+{
+	stack_t *one = *stack;
+	stack_t *two = *stack;
+	stack_t *three = *stack;
+
+	if (one->next == NULL)
+	{
+		fprintf(stderr, "L%u: can't swap, stack too short", line_number);
+		free_monty_vars();
+		exit(EXIT_FAILURE);
+	}
+
+	/*move ptr to next node*/
+	two = two->next;
+	three = three->next->next;
+
+	/*swap the nodes*/
+	two->prev = NULL;
+	one->prev = two;
+	two->next = one;
+	one->next = three;
+	three->prev = one;
+
+	/*move head*/
+	*stack = two;
 }
