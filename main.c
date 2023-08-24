@@ -14,7 +14,9 @@
  */
 int main(int argc, char **argv)
 {
+	void (*f)(stack_t **stack, unsigned int line_number);
 	char *file_name, *line = NULL;
+	char *line[2] = {NULL, NULL};
 	FILE *stream;
 	size_t len = 0;
 	ssize_t nread;
@@ -26,9 +28,7 @@ int main(int argc, char **argv)
 		printf("USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-
 	file_name = argv[1];
-
 	/*open file*/
 	stream = fopen(file_name, "r");
 	if (stream == NULL) /*can't open*/
@@ -39,8 +39,15 @@ int main(int argc, char **argv)
 	/*read file*/
 	while ((nread = getline(&line, &len, stream)) != -1)
 	{
-		printf("opcode: %s", line);
-		printf("Line number: %d\n", line_number);
+		line[0] = strtok(line, " \t\n"); /*name of opcode*/
+		f = select_opcode_func(line[0]);
+		if (f == NULL)
+		{
+			fprintf(stderr, "L%u: unknown instruction %s\n", line_num, line[0]);
+			exit(EXIT_FAILURE);
+		}
+		printf("function obtained\n");
+		return (0);
 		line_number++;
 	}
 	free(line);
