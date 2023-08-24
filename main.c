@@ -4,6 +4,7 @@
  */
 
 #include "monty.h"
+
 global_t monty_vars;
 
 /**
@@ -15,6 +16,7 @@ void init_global_vars(FILE *stream)
 {
 	monty_vars.head = NULL;
 	monty_vars.stream = stream;
+	monty_vars.buff = NULL;
 	monty_vars.current_line = 1;
 	monty_vars.opcode_value = NULL;
 }
@@ -29,7 +31,7 @@ void init_global_vars(FILE *stream)
 int main(int argc, char **argv)
 {
 	void (*f)(stack_t **stack, unsigned int line_number);
-	char *line = NULL, *line_data[2] = {NULL, NULL};
+	char *line[2] = {NULL, NULL};
 	FILE *stream;
 	size_t len = 0;
 	ssize_t nread;
@@ -41,24 +43,27 @@ int main(int argc, char **argv)
 	init_global_vars(stream);
 
 	/*read file*/
-	while ((nread = getline(&line, &len, stream)) != -1)
+	while ((nread = getline(&monty_vars.buff, &len, stream)) != -1)
 	{
-		line_data[0] = strtok(line, " \t\n"); /*name of opcode*/
-		f = select_opcode_func(line_data[0]);
-		if (f == NULL)
+		line[0] = strtok(monty_vars.buff, " \t\n"); /*name of opcode*/
+		if (line[0])
 		{
-			fprintf(stderr, "L%u: ", monty_vars.current_line);
-			fprintf(stderr, "unknown instruction %s\n", line_data[0]);
-			exit(EXIT_FAILURE);
+			f = select_opcode_func(line[0]);
+			if (f == NULL)
+			{
+				fprintf(stderr, "L%u: ", monty_vars.current_line);
+				fprintf(stderr, "unknown instruction %s\n", line[0]);
+				free_monty_vars();
+				exit(EXIT_FAILURE);
+			}
+			/*execute instructions*/
+			monty_vars.opcode_value = strtok(NULL, " \t\n");
+			f(&monty_vars.head, monty_vars.current_line);
 		}
-		/*execute instructions*/
-		monty_vars.opcode_value = strtok(NULL, " \t\n");
-		f(&monty_vars.head, monty_vars.current_line);
 		monty_vars.current_line++;
 	}
-	free(line);
-	/*close the file*/
-	fclose(stream);
+	/*free mem*/
+	free_monty_vars();
 	return (0);
 }
 
@@ -93,4 +98,16 @@ FILE *check_usage_file(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	return (stream);
+}
+
+/**
+ * free_monty_vars - frees the variable with allocated mem.
+ *
+ * Return: void.
+ */
+void free_monty_vars(void)
+{
+	free_dlistint(monty_vars.head);
+	free(monty_vars.buff);
+	fclose(monty_vars.stream);
 }

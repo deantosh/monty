@@ -30,6 +30,7 @@ typedef struct stack_s
  *			execution.
  * @head: a pointer to doubly linked list.
  * @stream: a pointer to monty file.
+ * @buff: a pointer to buffer containing the read line.
  * @current_line: the current line.
  * @opcode_value: the second parameter on current line.
  *
@@ -40,6 +41,7 @@ typedef struct globals
 {
 	stack_t *head;
 	FILE *stream;
+	char *buff;
 	unsigned int current_line;
 	char *opcode_value;
 } global_t;
@@ -61,10 +63,15 @@ typedef struct instruction_s
 /*FUNCTIONS*/
 
 /*file: main.c*/
-void init_global_vars();
+void init_global_vars(FILE *stream);
 FILE *check_usage_file(int argc, char **argv);
+void free_monty_vars(void);
 
-/*file: execute_instructions*/
+/*file: execute_instructions.c*/
 void (*select_opcode_func(char *opcode_name))(stack_t **stack, unsigned int line_number);
+
+/*file: stack_functions.c*/
+void add_stack(stack_t **head, int param1);
+void free_dlistint(stack_t *head);
 
 #endif /*MONTY_H*/
