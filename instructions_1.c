@@ -62,3 +62,25 @@ void _pall(stack_t **stack, unsigned int line_number)
 		current = current->next;
 	}
 }
+
+/**
+ * _pint - prints the element at the top of the stack.
+ * @stack: a pointer to the stack.
+ * @line_number: the current line of opcode in monty file.
+ *
+ * Return: void
+ */
+void _pint(stack_t **stack, unsigned int line_number)
+{
+	stack_t *current;
+
+	current = *stack;
+
+	if (current == NULL)
+	{
+		fprintf(stderr, "L%u: can't pint, stack empty", line_number);
+		free_monty_vars();
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", current->n);
+}
