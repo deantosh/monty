@@ -84,3 +84,42 @@ void _pint(stack_t **stack, unsigned int line_number)
 	}
 	printf("%d\n", current->n);
 }
+
+/**
+ * _pop - removes the element at the top of the stack.
+ * @stack: a pointer to the stack.
+ * @line_number: the current line of opcode in monty file.
+ *
+ * Return: void
+ */
+void _pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *current;
+	stack_t *tmp;
+
+	current = *stack;
+
+	if (current == NULL)
+	{
+		fprintf(stderr, "L%u: can't pop an empty stack", line_number);
+		free_monty_vars();
+		exit(EXIT_FAILURE);
+	}
+	if (current->next)
+	{
+		/*remove element from stack*/
+		tmp = current;
+		current = current->next;
+		free(tmp);
+		current->prev = NULL;
+	}
+	else
+	{
+		free(current);
+		current = NULL;
+	  
+	}
+
+	/*reset head*/
+	*stack = current;
+}
