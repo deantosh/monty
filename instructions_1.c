@@ -43,7 +43,7 @@ void _push(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * _pint - prints all the elements in the stack.
+ * _pall - prints all the elements in the stack.
  * @stack: a pointer to the stack.
  * @line_number: the current line of opcode in monty file.
  *
