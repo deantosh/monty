@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <sys/types.h>
+#include <ctype.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -60,6 +61,9 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/*GLOBAL variables*/
+extern global_t monty_vars;
+
 /*FUNCTIONS*/
 
 /*file: main.c*/
@@ -73,5 +77,9 @@ void (*select_opcode_func(char *opcode_name))(stack_t **stack, unsigned int line
 /*file: stack_functions.c*/
 void add_stack(stack_t **head, int param1);
 void free_dlistint(stack_t *head);
+
+/*file: instructions_1.c*/
+void _push(stack_t **stack, unsigned int line_number);
+void _pall(stack_t **stack, unsigned int line_number);
 
 #endif /*MONTY_H*/

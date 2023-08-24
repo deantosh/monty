@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	/*read file*/
 	while ((nread = getline(&monty_vars.buff, &len, stream)) != -1)
 	{
-		line[0] = strtok(monty_vars.buff, " \t\n"); /*name of opcode*/
+		line[0] = strtok(monty_vars.buff, " $\t\n"); /*name of opcode*/
 		if (line[0])
 		{
 			f = select_opcode_func(line[0]);
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 				exit(EXIT_FAILURE);
 			}
 			/*execute instructions*/
-			monty_vars.opcode_value = strtok(NULL, " \t\n");
+			monty_vars.opcode_value = strtok(NULL, " $\t\n");
 			f(&monty_vars.head, monty_vars.current_line);
 		}
 		monty_vars.current_line++;

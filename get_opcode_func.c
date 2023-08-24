@@ -17,6 +17,8 @@ void (*select_opcode_func(char *op))(stack_t **stack, unsigned int line_number)
 
 	/*create a list of opcodes*/
 	instruction_t opcode_list[] = {
+		{"push", _push},
+		{"pall", _pall},
 		{NULL, NULL}
 	};
 
