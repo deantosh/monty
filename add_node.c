@@ -1,26 +1,26 @@
+/*
+ * Author: Deantosh Daiddoh & Lucky Archibong.
+ * File: main.c
+ */
 #include "monty.h"
+
 /**
- * add_stack - add node to the head stack
- * @head: Where the stack begins
- * @param1 : the new value to adding
- * Return: no return
-*/
-void add_stack(stack_t **head, int param1)
+ *add_stack - Adds the top two elements of the stack.
+ *@head: Pointer to the top of the stack.
+ *@line_number: Line number in the file.
+ *Return - return nothing
+ */
+void add_stack(stack_t **head, unsigned int line_number)
 {
 
-	stack_t *new_node, *result;
+	if (!head || !*head || !(*head)->next)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
 
-	result = *head; /* stores the current head of the list in result */
-	new_node = malloc(sizeof(stack_t)); /* allocate memory for a new node */
+	int result = (*head)->n + (*head)->next->n;
 
-	if (new_node == NULL) /* checks if memory alloction is successful */
-	{ printf("Error\n");
-		exit(0); }
-	new_node->n = param1; /* Store value passed as an argument in new node */
-	new_node->next = result; /* Set new node's 'next' pointer to current head */
-	new_node->prev = NULL; /* The new node replaces the head */
-	if (result != null)
-		result->prev = new_node; /* update 'prev' pointer */
-	new_node->next = *head;
-	*head = new_node; /* Update the head to point to the new node */
+	pop(head, line_number); /*Remove the top element */
+	(*head)->n = result; /*Update the second top element with the result */
 }
