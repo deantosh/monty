@@ -10,6 +10,21 @@
 #include <sys/types.h>
 
 /**
+ * struct globals - global variables to store values used during instructions
+ *			execution.
+ * @current_line: the current line.
+ * @opcode_value: the second parameter on current line.
+ *
+ * Description: a doubly linked list node structure.
+ * for stack, queue, lifo and fifo.
+ */
+typedef struct globals
+{
+	char *current_line;
+	char *opcode_value;
+} global_t;
+
+/**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
  * @prev: points to the previous element of the stack (or queue)
@@ -39,6 +54,9 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/*FUNCTION PROTOTYPES*/
+/*FUNCTIONS*/
+
+/*file: execute_instructions*/
+void (*select_opcode_func(char *opcode_name))(stack_t **stack, unsigned int line_number);
 
 #endif /*MONTY_H*/
