@@ -101,7 +101,7 @@ void _pop(stack_t **stack, unsigned int line_number)
 
 	if (current == NULL)
 	{
-		fprintf(stderr, "L%u: can't pop an empty stack", line_number);
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
 		free_monty_vars();
 		exit(EXIT_FAILURE);
 	}
