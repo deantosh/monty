@@ -136,7 +136,7 @@ void _swap(stack_t **stack, unsigned int line_number)
 	stack_t *two = *stack;
 	stack_t *three = *stack;
 
-	if (one->next == NULL)
+	if (one == NULL || one->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
 		free_monty_vars();
