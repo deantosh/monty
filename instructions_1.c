@@ -78,7 +78,7 @@ void _pint(stack_t **stack, unsigned int line_number)
 
 	if (current == NULL)
 	{
-		fprintf(stderr, "L%u: can't pint, stack empty", line_number);
+		fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
 		free_monty_vars();
 		exit(EXIT_FAILURE);
 	}
