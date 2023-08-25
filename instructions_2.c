@@ -18,7 +18,7 @@ void _add(stack_t **stack, unsigned int line_number)
 	stack_t *one = *stack;
 	stack_t *two = *stack;
 
-	if (one->next == NULL)
+	if (one == NULL || one->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
 		free_monty_vars();
