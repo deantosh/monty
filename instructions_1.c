@@ -24,13 +24,13 @@ void _push(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	/*check if val is digit and not a negative number*/
+	/*check if val is digit and positive*/
 	for (i = 0; monty_vars.opcode_value[i] != '\0'; i++)
 	{
 		val = isdigit(monty_vars.opcode_value[i]);
 		if (val == 0 && monty_vars.opcode_value[i] != '-')
 		{
-			fprintf(stderr, "L%u: usage: push integer\n", line_number);
+			fprintf(stderr, "L%u: usage: push this integer\n", line_number);
 			free_monty_vars(); /*free mem*/
 			exit(EXIT_FAILURE);
 		}
