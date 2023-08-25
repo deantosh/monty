@@ -20,7 +20,7 @@ void _add(stack_t **stack, unsigned int line_number)
 
 	if (one->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't add, stack too short", line_number);
+		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
 		free_monty_vars();
 		exit(EXIT_FAILURE);
 	}
