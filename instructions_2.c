@@ -153,7 +153,7 @@ void _mul(stack_t **stack, unsigned int line_number)
 	/*if elements are less than two*/
 	if (one == NULL || one->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
 		free_monty_vars();
 		exit(EXIT_FAILURE);
 	}
