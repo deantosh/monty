@@ -143,16 +143,26 @@ void _swap(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	/*move ptr to next node*/
+	/*move ptr to swap*/
 	two = two->next;
 	three = three->next->next;
 
-	/*swap the nodes*/
-	two->prev = NULL;
-	one->prev = two;
-	two->next = one;
-	one->next = three;
-	three->prev = one;
+	if (one->next->next == NULL)/*if two elements in list*/
+	{
+		one->prev = two;
+		one->next = NULL;
+		two->prev = NULL;
+		two->next = one;
+	}
+	else
+	{
+		/*swap the nodes if more than two*/
+		two->prev = NULL;
+		one->prev = two;
+		two->next = one;
+		one->next = three;
+		three->prev = one;
+	}
 
 	/*move head*/
 	*stack = two;
