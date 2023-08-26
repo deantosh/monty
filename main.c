@@ -82,7 +82,7 @@ FILE *check_usage_file(int argc, char **argv)
 	char *file_name;
 
 	/*if user does not provide the file*/
-	if (argc != 2)
+	if (argc < 2)
 	{
 		printf("USAGE: monty file\n");
 		exit(EXIT_FAILURE);
