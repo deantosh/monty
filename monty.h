@@ -30,6 +30,7 @@ typedef struct stack_s
  * struct globals - global variables to store values used during instructions
  *			execution.
  * @head: a pointer to doubly linked list.
+ * @data_format: sets the format to either stack or queue.
  * @stream: a pointer to monty file.
  * @buff: a pointer to buffer containing the read line.
  * @current_line: the current line.
@@ -41,6 +42,7 @@ typedef struct stack_s
 typedef struct globals
 {
 	stack_t *head;
+	int data_format;
 	FILE *stream;
 	char *buff;
 	unsigned int current_line;
@@ -77,6 +79,9 @@ void (*select_opcode_func(char *opcode_name))(stack_t **stack, unsigned int line
 /*file: stack_functions.c*/
 void add_stack(stack_t **head, int param1);
 void free_dlistint(stack_t *head);
+
+/*file: queue_functions.c*/
+void add_queue(stack_t **head, int value);
 
 /*file: instructions_1.c*/
 void _push(stack_t **stack, unsigned int line_number);

@@ -35,11 +35,12 @@ void _push(stack_t **stack, unsigned int line_number)
 			exit(EXIT_FAILURE);
 		}
 	}
-
 	stack_value = atoi(monty_vars.opcode_value);
-
-	/*add element to stack*/
-	add_stack(stack, stack_value);
+	/*add element to stack or queue*/
+	if (monty_vars.data_format == 1)
+		add_queue(stack, stack_value);
+	else
+		add_stack(stack, stack_value);
 }
 
 /**

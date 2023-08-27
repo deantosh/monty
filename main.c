@@ -4,22 +4,7 @@
  */
 
 #include "monty.h"
-
 global_t monty_vars;
-
-/**
- * init_global_vars - initializes the global variables.
- * @stream: a pointer to monty file.
- * Return: void.
- */
-void init_global_vars(FILE *stream)
-{
-	monty_vars.head = NULL;
-	monty_vars.stream = stream;
-	monty_vars.buff = NULL;
-	monty_vars.current_line = 1;
-	monty_vars.opcode_value = NULL;
-}
 
 /**
  * main - the program entry point.
@@ -32,22 +17,28 @@ int main(int argc, char **argv)
 {
 	void (*f)(stack_t **stack, unsigned int line_number);
 	char *line[2] = {NULL, NULL};
+	char *stack = "stack", *queue = "queue";
 	FILE *stream;
 	size_t len = 0;
 	ssize_t nread;
 
-	/*check program usage / if file is present*/
 	stream = check_usage_file(argc, argv);
-
-	/*initialize global monty variables*/
 	init_global_vars(stream);
-
-	/*read file*/
 	while ((nread = getline(&monty_vars.buff, &len, stream)) != -1)
 	{
-		line[0] = strtok(monty_vars.buff, " $\t\n"); /*name of opcode*/
+		line[0] = strtok(monty_vars.buff, " \t\n"); /*name of opcode*/
 		if (line[0])
 		{
+			if (strcmp(line[0], stack) == 0)
+			{
+				monty_vars.data_format = 0;
+				continue;
+			}
+			if (strcmp(line[0], queue) == 0)
+			{
+				monty_vars.data_format = 1;
+				continue;
+			}
 			f = select_opcode_func(line[0]);
 			if (f == NULL)
 			{
@@ -56,13 +47,11 @@ int main(int argc, char **argv)
 				free_monty_vars();
 				exit(EXIT_FAILURE);
 			}
-			/*execute instructions*/
-			monty_vars.opcode_value = strtok(NULL, " $\t\n");
+			monty_vars.opcode_value = strtok(NULL, " \t\n");
 			f(&monty_vars.head, monty_vars.current_line);
 		}
 		monty_vars.current_line++;
 	}
-	/*free mem*/
 	free_monty_vars();
 	return (0);
 }
@@ -110,4 +99,19 @@ void free_monty_vars(void)
 	free_dlistint(monty_vars.head);
 	free(monty_vars.buff);
 	fclose(monty_vars.stream);
+}
+
+/**
+ * init_global_vars - initializes the global variables.
+ * @stream: a pointer to monty file.
+ * Return: void.
+ */
+void init_global_vars(FILE *stream)
+{
+	monty_vars.head = NULL;
+	monty_vars.data_format = 0;
+	monty_vars.stream = stream;
+	monty_vars.buff = NULL;
+	monty_vars.current_line = 1;
+	monty_vars.opcode_value = NULL;
 }
