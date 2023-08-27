@@ -26,6 +26,7 @@ void (*select_opcode_func(char *op))(stack_t **stack, unsigned int line_number)
 		{"sub", _sub},
 		{"div", _div},
 		{"mul", _mul},
+		{"mod", _mod},
 		{"nop", _nop},
 		{NULL, NULL}
 	};
